@@ -49,6 +49,34 @@ section h3::after{content:"";display:block;width:70px;height:1px;background:var(
 .gallery img{width:100%;height:220px;object-fit:cover;cursor:pointer;border:1px solid var(--mid);transition:.3s}
 .gallery img:hover{transform:scale(1.03);border-color:var(--accent)}
 
+.open-gallery{
+background:linear-gradient(180deg,#f5f5f5,#cfcfcf);
+color:#000;
+border:none;
+padding:18px 48px;
+font-size:14px;
+letter-spacing:3px;
+text-transform:uppercase;
+font-weight:500;
+border-radius:2px;
+cursor:pointer;
+position:relative;
+overflow:hidden;
+transition:transform .3s,box-shadow .3s,background .3s
+}
+.open-gallery::after{
+content:"";
+position:absolute;
+inset:0;
+border:1px solid rgba(0,0,0,.25)
+}
+.open-gallery:hover{
+transform:translateY(-3px);
+box-shadow:0 14px 35px rgba(0,0,0,.35);
+background:linear-gradient(180deg,#ffffff,#d9d9d9)
+}
+.open-gallery:active{transform:translateY(0)}
+
 /* MODAL */
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:1000}
 .modal img{max-width:90%;max-height:85%}
@@ -93,7 +121,12 @@ footer{text-align:center;padding:40px 15px;border-top:1px solid var(--mid);color
 
 <section id="services"><h3>Services</h3><div class="services"><div class="service-card"><h4>Interior Decoration</h4><p>Luxury interior solutions combining aesthetics and functionality.</p></div><div class="service-card"><h4>Gypsum & Ceiling Works</h4><p>Custom gypsum partitions and ceiling designs.</p></div><div class="service-card"><h4>Painting & Finishing</h4><p>Premium finishes with durable materials.</p></div><div class="service-card"><h4>Renovation & Fit‑Out</h4><p>Complete turnkey renovation services.</p></div></div></section>
 
-<section id="gallery"><h3>Selected Projects</h3><div class="gallery" id="gallery"></div></section>
+<section id="gallery">
+<h3>Selected Projects</h3>
+<div class="gallery-cta" style="text-align:center;margin-top:40px;">
+<button class="open-gallery" onclick="openGallery()">View Project Gallery</button>
+</div>
+</section>
 
 <section id="consultation"><h3>Request a Consultation</h3><form class="consultation-form" action="https://formspree.io/f/xeqyqvzp" method="POST"><input name="name" placeholder="Full Name" required><input name="email" type="email" placeholder="Email" required><input name="phone" placeholder="Phone / WhatsApp" required><textarea name="message" rows="5" placeholder="Project details" required></textarea><input id="mapInput" name="location" placeholder="Project Address (optional)"><div class="map-preview" id="mapPreview"></div><button type="submit">Request</button></form></section>
 
@@ -104,10 +137,9 @@ footer{text-align:center;padding:40px 15px;border-top:1px solid var(--mid);color
 <div class="modal" id="modal"><button class="close" onclick="closeModal()">×</button><div class="controls"><button onclick="prevImg()">‹</button><button onclick="nextImg()">›</button></div><img id="modalImg"></div>
 
 <script>
-const gallery=document.getElementById('gallery');
 let images=[];for(let i=1;i<=23;i++){images.push(`images/project${i}.jpg`)}
-images.forEach((src,i)=>{const img=document.createElement('img');img.src=src;img.onclick=()=>openModal(i);gallery.appendChild(img)})
 let index=0;const modal=document.getElementById('modal');const modalImg=document.getElementById('modalImg');
+function openGallery(){openModal(0)}
 function openModal(i){index=i;modal.style.display='flex';modalImg.src=images[index]}
 function closeModal(){modal.style.display='none'}
 function nextImg(){index=(index+1)%images.length;modalImg.src=images[index]}
@@ -118,4 +150,3 @@ mapInput.addEventListener('change',()=>{if(mapInput.value){mapPreview.innerHTML=
 </script>
 </body>
 </html>
-
